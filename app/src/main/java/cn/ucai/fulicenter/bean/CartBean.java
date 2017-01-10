@@ -1,4 +1,4 @@
-package cn.ucai.fulicenter.view;
+package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 
@@ -72,6 +72,11 @@ public class CartBean implements Serializable {
 
         return getId() == cartBean.getId();
 
+    }
+
+    @Override
+    public int hashCode() {
+        return getId();
     }
 
     @Override

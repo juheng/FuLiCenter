@@ -1,4 +1,4 @@
-package cn.ucai.fulicenter.view;
+package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 
@@ -100,5 +100,21 @@ public class CollectBean implements Serializable {
                 ", goodsImg='" + goodsImg + '\'' +
                 ", addTime=" + addTime +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CollectBean)) return false;
+
+        CollectBean that = (CollectBean) o;
+
+        return getGoodsId() == that.getGoodsId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getGoodsId();
     }
 }

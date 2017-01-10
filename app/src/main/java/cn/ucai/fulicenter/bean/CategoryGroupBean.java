@@ -1,4 +1,4 @@
-package cn.ucai.fulicenter.view;
+package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 
@@ -36,14 +36,5 @@ public class CategoryGroupBean implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    @Override
-    public String toString() {
-        return "CategoryGroupBean{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                '}';
     }
 }
