@@ -22,21 +22,21 @@
             android:button="@null"/>
 
         <RadioButton
-            android:id="@+id/tvBoutique"
+            android:id="@+id/layout_boutique"
             style="@style/menu_item_style"
             android:drawableTop="@drawable/selector_menu_item_boutique"
             android:text="精选"
             android:button="@null"/>
 
         <RadioButton
-            android:id="@+id/tvCategory"
+            android:id="@+id/layout_category"
             style="@style/menu_item_style"
             android:drawableTop="@drawable/selector_menu_item_category"
             android:text="分类"
             android:button="@null"/>
 
         <RadioButton
-            android:id="@+id/tvCart"
+            android:id="@+id/layout_cart"
             style="@style/menu_item_style"
             android:drawableTop="@drawable/selector_menu_item_cart"
             android:text="购物车"
@@ -44,7 +44,7 @@
             android:button="@null"/>
 
         <RadioButton
-            android:id="@+id/tvContacts"
+            android:id="@+id/layout_personal_center"
             style="@style/menu_item_style"
             android:drawableTop="@drawable/selector_menu_item_personal_center"
             android:text="我"
