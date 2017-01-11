@@ -31,6 +31,9 @@ import cn.ucai.fulicenter.model.utils.OkHttpUtils;
  * A simple {@link Fragment} subclass.
  */
 public class NewGoodsFragment extends Fragment {
+    static final int ACTION_DOWNLOAD = 0;
+    static final int ACTION_PULL_UP = 1;
+    static final int ACTION_PULL_DOWN = 2;
 
 
     @BindView(R.id.tv_refresh)
@@ -47,7 +50,7 @@ public class NewGoodsFragment extends Fragment {
     IModelNewGoods mModel;
 
     MainActivity mContext;
-    int pageId = 1;
+    int pageId;
 
     public NewGoodsFragment() {
     }
@@ -65,17 +68,74 @@ public class NewGoodsFragment extends Fragment {
         mAdapter = new GoodsAdapter(mContext, mList);
         initView();
         initData();
+        setListener();
         return view;
     }
 
+    private void setListener() {
+        setPullDownListener();
+        setPullUpListener();
+    }
+
+    private void setPullUpListener() {
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int lastPosition=mManager.findLastVisibleItemPosition();
+                if(mAdapter.isMore()&&newState==RecyclerView.SCROLL_STATE_IDLE&&mAdapter.getItemCount()-1==lastPosition){
+                    pageId++;
+                    download(ACTION_PULL_UP,pageId);
+                }
+            }
+        });
+    }
+
+    private void setPullDownListener() {
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srl.setRefreshing(true);
+                tvRefresh.setVisibility(View.VISIBLE);
+                pageId = 1;
+                download(ACTION_PULL_DOWN, pageId);
+            }
+        });
+    }
+
     private void initData() {
+        pageId=1;
+        download(ACTION_DOWNLOAD, pageId);
+
+    }
+
+    private void download(final int action,int pageId) {
         mModel.downData(mContext, I.CAT_ID, pageId, new OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(Object result) {
-                if(result!=null){
+                NewGoodsBean[] mResult= (NewGoodsBean[]) result;
+                ArrayList<NewGoodsBean> list = ConvertUtils.array2List(mResult);
+                mAdapter.setMore(mResult != null&&mResult.length>0);
+                if (!mAdapter.isMore()) {
+                    if(action==ACTION_PULL_UP){
+                        mAdapter.setFooter("没有更多数据");
+                    }
 
-                    ArrayList<NewGoodsBean> list = ConvertUtils.array2List((NewGoodsBean[]) result);
-                    mAdapter.initData(list);
+                    return;
+                }
+                mAdapter.setFooter("加载更多数据");
+                switch (action){
+                    case ACTION_DOWNLOAD:
+                        mAdapter.initData(list);
+                        break;
+                    case ACTION_PULL_DOWN:
+                        srl.setRefreshing(false);
+                        tvRefresh.setVisibility(View.GONE);
+                        mAdapter.initData(list);
+                        break;
+                    case ACTION_PULL_UP:
+                        mAdapter.addData(list);
+                        break;
                 }
             }
 
@@ -84,7 +144,6 @@ public class NewGoodsFragment extends Fragment {
                 Toast.makeText(mContext, error, Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void initView() {
