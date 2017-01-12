@@ -26,21 +26,23 @@ import cn.ucai.fulicenter.model.net.ModelNewGoods;
 import cn.ucai.fulicenter.model.net.OnCompleteListener;
 import cn.ucai.fulicenter.model.utils.ConvertUtils;
 import cn.ucai.fulicenter.model.utils.OkHttpUtils;
+import cn.ucai.fulicenter.view.SpaceItemDecoration;
+
+import static cn.ucai.fulicenter.application.I.ACTION_PULL_UP;
+import static cn.ucai.fulicenter.application.I.CAT_ID;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NewGoodsFragment extends Fragment {
-    static final int ACTION_DOWNLOAD = 0;
-    static final int ACTION_PULL_UP = 1;
-    static final int ACTION_PULL_DOWN = 2;
-
 
     @BindView(R.id.tv_refresh)
     TextView tvRefresh;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.srl)
+
+
     SwipeRefreshLayout srl;
 
     GoodsAdapter mAdapter;
@@ -49,12 +51,10 @@ public class NewGoodsFragment extends Fragment {
 
     IModelNewGoods mModel;
 
-    MainActivity mContext;
     int pageId;
 
     public NewGoodsFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,8 +64,7 @@ public class NewGoodsFragment extends Fragment {
         ButterKnife.bind(this, view);
         mModel = new ModelNewGoods();
         mList = new ArrayList<>();
-        mContext = (MainActivity) getContext();
-        mAdapter = new GoodsAdapter(mContext, mList);
+        mAdapter = new GoodsAdapter(getActivity(), mList);
         initView();
         initData();
         setListener();
@@ -98,26 +97,27 @@ public class NewGoodsFragment extends Fragment {
                 srl.setRefreshing(true);
                 tvRefresh.setVisibility(View.VISIBLE);
                 pageId = 1;
-                download(ACTION_PULL_DOWN, pageId);
+                download(I.ACTION_PULL_DOWN, pageId);
             }
         });
     }
 
     private void initData() {
         pageId=1;
-        download(ACTION_DOWNLOAD, pageId);
+        download(I.ACTION_DOWNLOAD, pageId);
 
     }
 
     private void download(final int action,int pageId) {
-        mModel.downData(mContext, I.CAT_ID, pageId, new OnCompleteListener<NewGoodsBean[]>() {
+        int catId=getActivity().getIntent().getIntExtra(I.NewAndBoutiqueGoods.CAT_ID,CAT_ID);
+        mModel.downData(getActivity(), catId, pageId, new OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(Object result) {
                 NewGoodsBean[] mResult= (NewGoodsBean[]) result;
                 ArrayList<NewGoodsBean> list = ConvertUtils.array2List(mResult);
                 mAdapter.setMore(mResult != null&&mResult.length>0);
                 if (!mAdapter.isMore()) {
-                    if(action==ACTION_PULL_UP){
+                    if(action==I.ACTION_PULL_UP){
                         mAdapter.setFooter("没有更多数据");
                     }
 
@@ -125,15 +125,15 @@ public class NewGoodsFragment extends Fragment {
                 }
                 mAdapter.setFooter("加载更多数据");
                 switch (action){
-                    case ACTION_DOWNLOAD:
+                    case I.ACTION_DOWNLOAD:
                         mAdapter.initData(list);
                         break;
-                    case ACTION_PULL_DOWN:
+                    case I.ACTION_PULL_DOWN:
                         srl.setRefreshing(false);
                         tvRefresh.setVisibility(View.GONE);
                         mAdapter.initData(list);
                         break;
-                    case ACTION_PULL_UP:
+                    case I.ACTION_PULL_UP:
                         mAdapter.addData(list);
                         break;
                 }
@@ -141,7 +141,7 @@ public class NewGoodsFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                Toast.makeText(mContext, error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -152,10 +152,23 @@ public class NewGoodsFragment extends Fragment {
                 getResources().getColor(R.color.google_red),
                 getResources().getColor(R.color.google_yellow));
 
-        mManager = new GridLayoutManager(mContext, I.COLUM_NUM);
+        mManager = new GridLayoutManager(getActivity(), I.COLUM_NUM);
         recyclerView.setLayoutManager(mManager);
         recyclerView.setHasFixedSize(true);
+
+        recyclerView.addItemDecoration(new SpaceItemDecoration(25));
+
         recyclerView.setAdapter(mAdapter);
+
+        mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(){
+            @Override
+            public int getSpanSize(int position) {
+                if(position==mAdapter.getItemCount()-1) {
+                    return 2;
+                }
+                return 1;
+            }
+        });
     }
 
 }

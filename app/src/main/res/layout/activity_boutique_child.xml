@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:id="@+id/boutique_child_menu"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/orange">
+        <ImageView
+            android:id="@+id/iv_boutique_child_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/back_nomal"/>
+        <TextView
+            android:id="@+id/tv_boutique_child_textView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="20sp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical"
+            android:text="拯救头发，美丽新妆"/>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/boutique_fragment_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/boutique_child_menu"></FrameLayout>
+</RelativeLayout>
