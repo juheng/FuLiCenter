@@ -13,18 +13,19 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.application.I;
+import cn.ucai.fulicenter.controller.activity.MainActivity;
 import cn.ucai.fulicenter.model.bean.NewGoodsBean;
 import cn.ucai.fulicenter.model.utils.ImageLoader;
+import cn.ucai.fulicenter.view.MFGT;
 
 /**
  * Created by Administrator on 2017/1/11 0011.
  */
 
 public class GoodsAdapter extends RecyclerView.Adapter {
-    static final int TYPE_FOOTER = 0;
-    static final int TYPE_GOODS = 1;
-    Context mContext;
-
+   Context mContext;
+MainActivity context;
     ArrayList<NewGoodsBean> goodsList;
     boolean isMore;
     String footer;
@@ -57,7 +58,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(mContext);
         View layout;
-        if (viewType == TYPE_FOOTER) {
+        if (viewType == I.TYPE_FOOTER) {
             layout=inflater.inflate(R.layout.item_footer,null);
             return new FooterViewHolder(layout);
         }else{
@@ -68,8 +69,8 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder parentHolder, int position) {
-        if(getItemViewType(position)==TYPE_FOOTER){
+    public void onBindViewHolder(RecyclerView.ViewHolder parentHolder, final int position) {
+        if(getItemViewType(position)==I.TYPE_FOOTER){
             FooterViewHolder holder= (FooterViewHolder) parentHolder;
             holder.tvFooter.setText(getFooter());
             return;
@@ -78,6 +79,12 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         ImageLoader.downloadImg(mContext, vh.ivGoodsThumb, goodsList.get(position).getGoodsThumb());
         vh.tvGoodsName.setText(goodsList.get(position).getGoodsName());
         vh.tvGoodsPrice.setText(goodsList.get(position).getCurrencyPrice());
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MFGT.gotoNewGoodsDetail(mContext,goodsList.get(position));
+            }
+        });
     }
 
     @Override
@@ -88,9 +95,9 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1) {
-            return TYPE_FOOTER;
+            return I.TYPE_FOOTER;
         }
-        return TYPE_GOODS;
+        return I.TYPE_ITEM;
     }
 
     public void initData(ArrayList<NewGoodsBean> list) {
