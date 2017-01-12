@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.controller.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -16,15 +17,17 @@ import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.activity.BoutiqueChildActivity;
+import cn.ucai.fulicenter.controller.activity.MainActivity;
 import cn.ucai.fulicenter.model.bean.BoutiqueBean;
 import cn.ucai.fulicenter.model.utils.ImageLoader;
+import cn.ucai.fulicenter.view.MFGT;
 
 /**
  * Created by Administrator on 2017/1/11 0011.
  */
 
 public class BoutiqueAdapter extends RecyclerView.Adapter {
-    Context mContext;
+    MainActivity mContext;
 
     ArrayList<BoutiqueBean> boutiqueList;
     boolean isMore;
@@ -49,7 +52,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
     }
 
     public BoutiqueAdapter(final Context mContext, ArrayList<BoutiqueBean> list) {
-        this.mContext = mContext;
+        this.mContext = (MainActivity) mContext;
         this.boutiqueList = new ArrayList<>();
         boutiqueList.addAll(list);
     }
@@ -83,10 +86,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(mContext,BoutiqueChildActivity.class);
-                intent.putExtra("cat_id",boutiqueList.get(position).getId());
-                intent.putExtra("text",vh.tvText2.getText().toString());
-                mContext.startActivity(intent);
+                MFGT.gotoBoutiqueChild(mContext,boutiqueList.get(position));
             }
         });
     }
