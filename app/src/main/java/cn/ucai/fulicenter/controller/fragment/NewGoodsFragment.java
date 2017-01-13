@@ -20,6 +20,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.activity.MainActivity;
 import cn.ucai.fulicenter.controller.adapter.GoodsAdapter;
+import cn.ucai.fulicenter.model.bean.CategoryChildBean;
 import cn.ucai.fulicenter.model.bean.NewGoodsBean;
 import cn.ucai.fulicenter.model.net.IModelNewGoods;
 import cn.ucai.fulicenter.model.net.ModelNewGoods;
@@ -64,7 +65,7 @@ public class NewGoodsFragment extends Fragment {
         ButterKnife.bind(this, view);
         mModel = new ModelNewGoods();
         mList = new ArrayList<>();
-        mAdapter = new GoodsAdapter(getActivity(), mList);
+        mAdapter = new GoodsAdapter(getContext(), mList);
         initView();
         initData();
         setListener();
@@ -169,6 +170,9 @@ public class NewGoodsFragment extends Fragment {
                 return 1;
             }
         });
+    }
+    public void sortGoods(int sortBy){
+        mAdapter.sortGoods(sortBy);
     }
 
 }

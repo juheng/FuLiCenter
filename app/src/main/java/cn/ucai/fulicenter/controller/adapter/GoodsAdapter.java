@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,8 +26,8 @@ import cn.ucai.fulicenter.view.MFGT;
  */
 
 public class GoodsAdapter extends RecyclerView.Adapter {
-   Context mContext;
-MainActivity context;
+    Context mContext;
+    MainActivity context;
     ArrayList<NewGoodsBean> goodsList;
     boolean isMore;
     String footer;
@@ -56,13 +58,13 @@ MainActivity context;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater=LayoutInflater.from(mContext);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         View layout;
         if (viewType == I.TYPE_FOOTER) {
-            layout=inflater.inflate(R.layout.item_footer,null);
+            layout = inflater.inflate(R.layout.item_footer, null);
             return new FooterViewHolder(layout);
-        }else{
-            layout=inflater.inflate(R.layout.item_goods,null);
+        } else {
+            layout = inflater.inflate(R.layout.item_goods, null);
             return new GoodsViewHolder(layout);
         }
 
@@ -70,21 +72,54 @@ MainActivity context;
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder parentHolder, final int position) {
-        if(getItemViewType(position)==I.TYPE_FOOTER){
-            FooterViewHolder holder= (FooterViewHolder) parentHolder;
+        if (getItemViewType(position) == I.TYPE_FOOTER) {
+            FooterViewHolder holder = (FooterViewHolder) parentHolder;
             holder.tvFooter.setText(getFooter());
             return;
         }
-        GoodsViewHolder vh = (GoodsViewHolder)parentHolder;
+        GoodsViewHolder vh = (GoodsViewHolder) parentHolder;
         ImageLoader.downloadImg(mContext, vh.ivGoodsThumb, goodsList.get(position).getGoodsThumb());
         vh.tvGoodsName.setText(goodsList.get(position).getGoodsName());
         vh.tvGoodsPrice.setText(goodsList.get(position).getCurrencyPrice());
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MFGT.gotoNewGoodsDetail(mContext,goodsList.get(position));
+                MFGT.gotoNewGoodsDetail(mContext, goodsList.get(position));
             }
         });
+    }
+
+
+    public void sortGoods(final int sortBy) {
+        Collections.sort(goodsList, new Comparator<NewGoodsBean>() {
+            @Override
+            public int compare(NewGoodsBean leftBean, NewGoodsBean rightBean) {
+                int result = 0;
+                switch (sortBy) {
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result = (int) (leftBean.getAddTime() - rightBean.getAddTime());
+                        break;
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result = (int) (rightBean.getAddTime() - leftBean.getAddTime());
+                        break;
+                    case I.SORT_BY_PRICE_ASC:
+                        result = getPrice(leftBean.getCurrencyPrice()) - getPrice(rightBean.getCurrencyPrice());
+                        break;
+                    case I.SORT_BY_PRICE_DESC:
+                        result = getPrice(rightBean.getCurrencyPrice()) - getPrice(leftBean.getCurrencyPrice());
+                        break;
+
+                }
+                return result;
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    int getPrice(String price) {
+        int p = 0;
+        p = Integer.valueOf(price.substring(price.indexOf("￥")+1));
+        return p;
     }
 
     @Override

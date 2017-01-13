@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.activity.BoutiqueChildActivity;
+import cn.ucai.fulicenter.controller.activity.CategoryDetailActivity;
 import cn.ucai.fulicenter.controller.activity.NewGoodsDetailActivity;
 import cn.ucai.fulicenter.model.bean.BoutiqueBean;
+import cn.ucai.fulicenter.model.bean.CategoryChildBean;
 import cn.ucai.fulicenter.model.bean.NewGoodsBean;
 
 /**
@@ -45,5 +47,12 @@ public class MFGT {
         Intent intent=new Intent(mContext, NewGoodsDetailActivity.class);
         intent.putExtra(I.GoodsDetails.KEY_GOODS_ID,newGoodsBean.getGoodsId());
         MFGT.startActivity(mContext,intent);
+    }
+
+    public static void gotoCategoryDetail(Context context, CategoryChildBean categoryChildBean) {
+        Intent intent=new Intent(context, CategoryDetailActivity.class);
+        intent.putExtra(I.NewAndBoutiqueGoods.CAT_ID, categoryChildBean.getId());
+        intent.putExtra("CategoryChildBean_name", categoryChildBean.getName());
+        MFGT.startActivity(context,intent);
     }
 }
