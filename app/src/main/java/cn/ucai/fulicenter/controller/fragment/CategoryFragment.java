@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.controller.activity.MainActivity;
 import cn.ucai.fulicenter.controller.adapter.CategoryAdapter;
@@ -75,7 +74,8 @@ public class CategoryFragment extends Fragment {
                     ArrayList<CategoryGroupBean> list1 = ConvertUtils.array2List(mResult);
                     groupList.addAll(list1);
                     for (int i = 0; i < list1.size(); i++) {
-                        downloadChildData(list1.get(i).getId());
+                        childList.add(new ArrayList<CategoryChildBean>());
+                        downloadChildData(list1.get(i).getId(),i);
                     }
                 } else {
                     initView(false);
@@ -91,7 +91,7 @@ public class CategoryFragment extends Fragment {
 
     }
 
-    private void downloadChildData(final int parentId) {
+    private void downloadChildData(final int parentId, final int index) {
         mModel.downChildData(mContext, parentId, new OnCompleteListener<CategoryChildBean[]>() {
             @Override
             public void onSuccess(Object result) {
@@ -100,7 +100,7 @@ public class CategoryFragment extends Fragment {
 
                     ArrayList<CategoryChildBean> list2 = ConvertUtils.array2List(mResult);
                     groupId++;
-                    childList.add(list2);
+                    childList.set(index,list2);
                     if (groupId == groupList.size()) {
                         mAdapter.initData(groupList, childList);
                     }
