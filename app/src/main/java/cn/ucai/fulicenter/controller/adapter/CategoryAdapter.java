@@ -28,8 +28,8 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     public CategoryAdapter(Context context, ArrayList<CategoryGroupBean> groupList, ArrayList<ArrayList<CategoryChildBean>> childList) {
         this.context = context;
-        this.groupList = groupList;
-        this.childList = childList;
+        this.groupList.addAll(groupList);
+        this.childList.addAll(childList);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return childList.get(groupPosition) == null || childList== null ? 0 : childList.get(groupPosition).size();
+        return childList.get(groupPosition)!= null&&childList!= null ? childList.get(groupPosition).size():0;
     }
 
     @Override
@@ -49,11 +49,8 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public CategoryChildBean getChild(int groupPosition, int childPosition) {
-        if(childList!=null&&childList.get(groupPosition)!=null){
 
             return childList.get(groupPosition).get(childPosition);
-        }
-        return null;
     }
 
     @Override
@@ -99,7 +96,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         }
         holder.tvCategoryChildText.setText(childList.get(groupPosition).get(childPosition).getName());
         ImageLoader.downloadImg(context, holder.ivCategoryChildImage, childList.get(groupPosition).get(childPosition).getImageUrl());
-        return null;
+        return convertView;
     }
 
     @Override
@@ -109,8 +106,8 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     public void initData(ArrayList<CategoryGroupBean> groupList, ArrayList<ArrayList<CategoryChildBean>> childList) {
         this.groupList.clear();
-        this.groupList.addAll(groupList);
         this.childList.clear();
+        this.groupList.addAll(groupList);
         this.childList.addAll(childList);
         notifyDataSetChanged();
     }
