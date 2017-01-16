@@ -10,10 +10,14 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.activity.BoutiqueChildActivity;
 import cn.ucai.fulicenter.controller.activity.CategoryDetailActivity;
+import cn.ucai.fulicenter.controller.activity.LoginActivity;
+import cn.ucai.fulicenter.controller.activity.MainActivity;
 import cn.ucai.fulicenter.controller.activity.NewGoodsDetailActivity;
 import cn.ucai.fulicenter.model.bean.BoutiqueBean;
 import cn.ucai.fulicenter.model.bean.CategoryChildBean;
 import cn.ucai.fulicenter.model.bean.NewGoodsBean;
+import cn.ucai.fulicenter.model.bean.User;
+import cn.ucai.fulicenter.model.net.OnCompleteListener;
 
 /**
  * Created by Administrator on 2017/1/10 0010.
@@ -49,10 +53,15 @@ public class MFGT {
         MFGT.startActivity(mContext,intent);
     }
 
-    public static void gotoCategoryDetail(Context context, CategoryChildBean categoryChildBean) {
+    public static void gotoCategoryDetail(Context context, CategoryChildBean categoryChildBean, ArrayList<CategoryChildBean> categoryChildList) {
         Intent intent=new Intent(context, CategoryDetailActivity.class);
         intent.putExtra(I.NewAndBoutiqueGoods.CAT_ID, categoryChildBean.getId());
         intent.putExtra("CategoryChildBean_name", categoryChildBean.getName());
+        intent.putExtra("Cat_Filter_List",categoryChildList);
         MFGT.startActivity(context,intent);
+    }
+
+    public static void gotoLoginActivity(Context context) {
+        startActivity((Activity) context, LoginActivity.class);
     }
 }

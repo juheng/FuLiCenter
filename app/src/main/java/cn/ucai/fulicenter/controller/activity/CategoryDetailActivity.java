@@ -10,12 +10,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
+import cn.ucai.fulicenter.model.bean.CategoryChildBean;
 import cn.ucai.fulicenter.model.net.IModelNewGoods;
 import cn.ucai.fulicenter.model.net.ModelNewGoods;
 import cn.ucai.fulicenter.view.CatFilterButton;
@@ -38,7 +41,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
    @BindView(R.id.catButton_category)
     CatFilterButton catButtonCategory;
 
-    String groupName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +63,10 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
 
     private void initData() {
-        groupName = getIntent().getStringExtra("CategoryChildBean_name");
-        catButtonCategory.setText(groupName);
+        String name = getIntent().getStringExtra("CategoryChildBean_name");
+        catButtonCategory.setText(name);
+        ArrayList<CategoryChildBean>list= (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra("Cat_Filter_List");
+        catButtonCategory.initCatFilterButton(name,list);
     }
 
 
@@ -85,7 +89,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 this.finish();
                 break;
             case R.id.catButton_category:
-                catButtonCategory.initCatFilterButton(groupName,null);
                 break;
             case R.id.category_detail_addTime:
                 if (flag1) {
