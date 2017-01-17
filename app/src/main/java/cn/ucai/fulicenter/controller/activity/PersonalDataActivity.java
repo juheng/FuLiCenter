@@ -2,6 +2,7 @@ package cn.ucai.fulicenter.controller.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.model.bean.User;
 import cn.ucai.fulicenter.model.net.SharePreferenceUtils;
 import cn.ucai.fulicenter.model.utils.ImageLoader;
+import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.MFGT;
 
 public class PersonalDataActivity extends AppCompatActivity {
@@ -31,6 +33,7 @@ public class PersonalDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_personal_data);
         ButterKnife.bind(this);
         initData();
+        DisplayUtils.initBackWithTitle(this,"个人资料");
     }
 
     private void initData() {
@@ -60,6 +63,13 @@ public class PersonalDataActivity extends AppCompatActivity {
                 MFGT.gotoLoginActivity(this);
                 finish();
                 break;
+        }
+    }
+    @OnClick(R.id.tv_personal_nick)
+    public void updateNick(){
+        String nick=tvPersonalNick.getText().toString().trim();
+        if(TextUtils.isEmpty(nick)){
+
         }
     }
 }
