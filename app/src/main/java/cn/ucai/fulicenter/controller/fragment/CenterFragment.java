@@ -60,7 +60,15 @@ public class CenterFragment extends Fragment {
     }
 
     @OnClick({R.id.tv_center_set,R.id.tv_center_name})
-    public void onClick() {
-        MFGT.gotoSettingActivity(getActivity());
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.tv_center_set:
+                MFGT.gotoSettingActivity(getActivity());
+                break;
+            case R.id.tv_center_name:
+                MFGT.gotoPersonalDtata(getActivity());
+                break;
+        }
     }
+
 }

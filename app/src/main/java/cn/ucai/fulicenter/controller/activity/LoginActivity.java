@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.Dao.UserDao;
 import cn.ucai.fulicenter.model.bean.Result;
@@ -105,8 +106,10 @@ public class LoginActivity extends AppCompatActivity {
                         L.e(TAG,"saveUser="+s);
                         if(s){
                             SharePreferenceUtils.getInstance(LoginActivity.this).saveUser(user.getMuserName());
-                            MFGT.finish(LoginActivity.this);
+                            FuLiCenterApplication.setUser(user);
                         }
+                        setResult(RESULT_OK);
+                        MFGT.finish(LoginActivity.this);
                     } else {
                         if (result2.getRetCode() == I.MSG_LOGIN_UNKNOW_USER) {
                             CommonUtils.showLongToast(getString(R.string.login_fail_unknow_user));
