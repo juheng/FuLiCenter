@@ -354,7 +354,7 @@ public class ImageLoader {
 
     public static void setImage(String url,Context context,ImageView imageView,boolean isDragging){
         ImageLoader.build(url)
-                .defaultPicture(R.drawable.nopic)
+                .defaultPicture(R.drawable.contactlogo)
                 .imageView(imageView)
                 .setDragging(isDragging)
                 .showImage(context);
