@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
+import cn.ucai.fulicenter.model.Dao.UserDao;
 import cn.ucai.fulicenter.model.bean.Result;
 import cn.ucai.fulicenter.model.bean.User;
 import cn.ucai.fulicenter.model.net.IModelUser;
@@ -94,14 +95,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object result) {
                 String result1 = (String) result;
-                Result result2 = ResultUtils.getListResultFromJson(result1, User.class);
+                Result result2 = ResultUtils.getResultFromJson(result1, User.class);
                 L.e(TAG,"result="+result2);
                 if (result2 != null) {
                     if (result2.isRetMsg()) {
                         CommonUtils.showLongToast(R.string.logining);
                         User user= (User) result2.getRetData();
-                        SharePreferenceUtils.getInstance(LoginActivity.this).saveUser(user.getMuserName());
-                        MFGT.finish(LoginActivity.this);
+                        boolean s= UserDao.getInstance().saveUser(user);
+                        L.e(TAG,"saveUser="+s);
+                        if(s){
+                            SharePreferenceUtils.getInstance(LoginActivity.this).saveUser(user.getMuserName());
+                            MFGT.finish(LoginActivity.this);
+                        }
                     } else {
                         if (result2.getRetCode() == I.MSG_LOGIN_UNKNOW_USER) {
                             CommonUtils.showLongToast(getString(R.string.login_fail_unknow_user));
