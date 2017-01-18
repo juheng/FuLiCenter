@@ -20,4 +20,5 @@ public interface IModelNewGoods {
     void downDetailData(Context context, int goodsId, OnCompleteListener<GoodsDetailsBean> listener);
     void isCollect(Context context, int goodsId,String username, OnCompleteListener<MessageBean> listener);
     void addCollect(Context context, int goodsId,String username,int action, OnCompleteListener<MessageBean> listener);
+    void CollectCount(Context context,String username, OnCompleteListener<MessageBean> listener);
 }

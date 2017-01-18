@@ -71,4 +71,13 @@ public class ModelNewGoods implements IModelNewGoods{
                 .targetClass(MessageBean.class)
                 .execute(listener);
     }
+
+    @Override
+    public void CollectCount(Context context, String username, OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean>utils=new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
+                .addParam(I.Collect.USER_NAME,username)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
 }
