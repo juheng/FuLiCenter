@@ -21,6 +21,7 @@ import cn.ucai.fulicenter.model.bean.User;
 import cn.ucai.fulicenter.model.net.IModelNewGoods;
 import cn.ucai.fulicenter.model.net.ModelNewGoods;
 import cn.ucai.fulicenter.model.net.OnCompleteListener;
+import cn.ucai.fulicenter.model.utils.CommonUtils;
 import cn.ucai.fulicenter.model.utils.L;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.MFGT;
@@ -117,17 +118,42 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
         return new String[0];
     }
 
-    @OnClick({R.id.goods_detail_back,R.id.goods_detail_collect})
+    @OnClick({R.id.goods_detail_back, R.id.goods_detail_collect})
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.goods_detail_back:
                 this.finish();
                 break;
             case R.id.goods_detail_collect:
-
+                User user = FuLiCenterApplication.getUser();
+                if (user != null) {
+                    checkInput(user);
+                } else {
+                    MFGT.gotoLoginActivity(this);
+                }
                 break;
 
         }
+    }
+
+    private void checkInput(User user) {
+        model.addCollect(this, goodsId, user.getMuserName()
+                , isCollect ? I.ACTION_DELETE_COLLECT : I.ACTION_ADD_COLLECT, new OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(Object result) {
+                        if (result != null) {
+                            MessageBean result1= (MessageBean) result;
+                            isCollect = !isCollect;
+                            setCollectStatus();
+                            CommonUtils.showShortToast(result1.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        L.e(TAG, "error=" + error);
+                    }
+                });
     }
 
     @Override

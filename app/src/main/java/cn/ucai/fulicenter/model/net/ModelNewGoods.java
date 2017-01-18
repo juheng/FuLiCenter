@@ -5,6 +5,7 @@ import android.content.Context;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.CategoryChildBean;
 import cn.ucai.fulicenter.model.bean.GoodsDetailsBean;
+import cn.ucai.fulicenter.model.bean.MessageBean;
 import cn.ucai.fulicenter.model.bean.NewGoodsBean;
 import cn.ucai.fulicenter.model.utils.OkHttpUtils;
 
@@ -44,6 +45,30 @@ public class ModelNewGoods implements IModelNewGoods{
         utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
                 .addParam(I.GoodsDetails.KEY_GOODS_ID,goodsId+"")
                 .targetClass(GoodsDetailsBean.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void isCollect(Context context, int goodsId, String username, OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean>utils=new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_IS_COLLECT)
+                .addParam(I.GoodsDetails.KEY_GOODS_ID,goodsId+"")
+                .addParam(I.Collect.USER_NAME,username)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void addCollect(Context context, int goodsId, String username,int action, OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean>utils=new OkHttpUtils<>(context);
+        String url=I.REQUEST_ADD_COLLECT;
+        if(action==I.ACTION_DELETE_COLLECT){
+            url=I.REQUEST_DELETE_COLLECT;
+        }
+        utils.setRequestUrl(url)
+                .addParam(I.GoodsDetails.KEY_GOODS_ID,goodsId+"")
+                .addParam(I.Collect.USER_NAME,username)
+                .targetClass(MessageBean.class)
                 .execute(listener);
     }
 }
