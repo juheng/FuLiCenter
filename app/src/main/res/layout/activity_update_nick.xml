@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_update_nick"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:orientation="vertical">
+    <include layout="@layout/common_title"/>
+   <EditText
+       android:id="@+id/et_updateNick_nick"
+       android:layout_width="match_parent"
+       android:layout_marginTop="20dp"
+       android:layout_height="40dp"
+       android:background="@color/white"
+       android:textSize="30dp"
+       android:hint="nick"/>
+    <Button
+        android:id="@+id/bt_updateNick_save"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/main_orange"
+        android:text="保存"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
