@@ -2,6 +2,7 @@ package cn.ucai.fulicenter.controller.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,20 +12,26 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.AlbumsBean;
 import cn.ucai.fulicenter.model.bean.GoodsDetailsBean;
+import cn.ucai.fulicenter.model.bean.MessageBean;
+import cn.ucai.fulicenter.model.bean.User;
 import cn.ucai.fulicenter.model.net.IModelNewGoods;
 import cn.ucai.fulicenter.model.net.ModelNewGoods;
 import cn.ucai.fulicenter.model.net.OnCompleteListener;
-import cn.ucai.fulicenter.model.utils.OkHttpUtils;
+import cn.ucai.fulicenter.model.utils.L;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.MFGT;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
 
 public class NewGoodsDetailActivity extends AppCompatActivity {
+    private static String TAG = NewGoodsDetailActivity.class.getSimpleName();
 
     int goodsId;
+
+    boolean isCollect;
 
     IModelNewGoods model;
 
@@ -42,13 +49,15 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
     FlowIndicator goodsDetailIndicator;
     @BindView(R.id.goods_detail_webView)
     WebView goodsDetailWebView;
+    @BindView(R.id.goods_detail_collect)
+    ImageView goodsDetailCollect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_goos_detail);
         ButterKnife.bind(this);
-        goodsId = (int) getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
+        goodsId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
         if (goodsId == 0) {
             MFGT.finish(this);
         } else {
@@ -84,7 +93,7 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
         goodsDetailEnglishName.setText(goods.getGoodsEnglishName());
         goodsDetailPrice.setText(goods.getCurrencyPrice());
         goodsDetailSalv.startPlayLoop(goodsDetailIndicator, getAlbumUrl(goods), getAlbumCount(goods));
-       goodsDetailWebView.loadDataWithBaseURL(null,goods.getGoodsBrief(),I.TEXT_HTML,I.UTF_8,null);
+        goodsDetailWebView.loadDataWithBaseURL(null, goods.getGoodsBrief(), I.TEXT_HTML, I.UTF_8, null);
     }
 
     private int getAlbumCount(GoodsDetailsBean goods) {
@@ -108,8 +117,59 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
         return new String[0];
     }
 
-    @OnClick(R.id.goods_detail_back)
-    public void onClick() {
-        this.finish();
+    @OnClick({R.id.goods_detail_back,R.id.goods_detail_collect})
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.goods_detail_back:
+                this.finish();
+                break;
+            case R.id.goods_detail_collect:
+
+                break;
+
+        }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initCollectStatus();
+    }
+
+    private void initCollectStatus() {
+        User user = FuLiCenterApplication.getUser();
+        if (user != null) {
+            model.isCollect(this, goodsId, user.getMuserName(), new OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(Object result) {
+                    MessageBean result1 = (MessageBean) result;
+                    L.e(TAG, "result1=========" + result1);
+                    if (result1 != null && result1.isSuccess()) {
+                        isCollect = true;
+
+                    } else {
+                        isCollect = false;
+                    }
+                    setCollectStatus();
+                }
+
+                @Override
+                public void onError(String error) {
+                    isCollect = false;
+                }
+            });
+        }
+    }
+
+    private void setCollectStatus() {
+        L.e(TAG, "000000000000000000000000000000000000000000000000");
+        if (isCollect) {
+            goodsDetailCollect.setImageResource(R.mipmap.bg_collect_out);
+        } else {
+            goodsDetailCollect.setImageResource(R.mipmap.bg_collect_in);
+
+        }
+    }
+
 }
+
