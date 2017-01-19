@@ -6,6 +6,7 @@ import android.content.Context;
 import java.io.File;
 
 import cn.ucai.fulicenter.application.I;
+import cn.ucai.fulicenter.model.bean.CartBean;
 import cn.ucai.fulicenter.model.bean.MessageBean;
 import cn.ucai.fulicenter.model.bean.User;
 
@@ -19,4 +20,5 @@ public interface IModelUser{
     void updateNick(Context context, String username,String usernick,OnCompleteListener<String>listener);
     void updateAvatar(Context context, String username, File file, OnCompleteListener<String>listener);
     void updateCart(Context context,int action, String username, int goodsId,int cartId,int count, OnCompleteListener<MessageBean>listener);
+    void getCart(Context context, String username,OnCompleteListener<CartBean[]>listener);
 }

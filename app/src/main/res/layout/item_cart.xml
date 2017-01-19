@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:src="@mipmap/checkbox_normal" />
+
+    <ImageView
+        android:id="@+id/iv_goodsThumb"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/iv_checkbox"
+        android:src="@drawable/nopic" />
+
+    <TextView
+        android:id="@+id/tv_goodsName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_goodsThumb"
+        android:text="趣味煮蛋模具"
+        android:textColor="#9202ff"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/iv_addCart"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/tv_goodsName"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/iv_goodsThumb"
+        android:src="@mipmap/add_cart" />
+
+    <TextView
+        android:id="@+id/tv_cartCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_goodsName"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_addCart"
+        android:text="(1)"
+        android:textColor="#9202ff"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/tv_goodsName"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/tv_cartCount"
+        android:src="@mipmap/del_cart" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¥xxx"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textColor="#ff02de"
+        android:textSize="25sp"/>
+</RelativeLayout>

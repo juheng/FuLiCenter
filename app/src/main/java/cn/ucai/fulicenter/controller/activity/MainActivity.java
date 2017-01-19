@@ -16,6 +16,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.fragment.BoutiqueFragment;
+import cn.ucai.fulicenter.controller.fragment.CartFragment;
 import cn.ucai.fulicenter.controller.fragment.CategoryFragment;
 import cn.ucai.fulicenter.controller.fragment.CenterFragment;
 import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mFragements[0] = new NewGoodsFragment();
         mFragements[1] = new BoutiqueFragment();
         mFragements[2] = new CategoryFragment();
+        mFragements[3] = new CartFragment();
         mFragements[4] = new CenterFragment();
         ft.add(R.id.layout_menu, mFragements[0]).commit();
     }
@@ -82,7 +84,11 @@ public class MainActivity extends AppCompatActivity {
                 index = 2;
                 break;
             case R.id.layout_cart:
-                index = 3;
+                if (application.getUser() == null) {
+                    MFGT.gotoLoginActivity(this,I.REQUEST_CODE_LOGIN_FROM_CART);
+                } else {
+                    index = 3;
+                }
                 break;
             case R.id.layout_personal_center:
                 if (application.getUser() == null) {
@@ -135,14 +141,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        L.e(TAG, "onActivtiyResult,resultCode=" + resultCode + ",requestCode=" + requestCode);
+        L.e(TAG, "onActivityResult,resultCode=" + resultCode + ",requestCode=" + requestCode);
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == I.REQUEST_CODE_LOGIN) {
-            index = 4;
+        if (resultCode == RESULT_OK){
+
+         if(requestCode == I.REQUEST_CODE_LOGIN) {
+             index = 4;
+         }else if(requestCode==I.REQUEST_CODE_LOGIN_FROM_CART){
+                index=3;
+            }
             setFragment();
             setRadioStatus();
         }
     }
-
-
 }

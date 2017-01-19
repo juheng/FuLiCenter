@@ -23,6 +23,8 @@ public interface I {
     int REQUEST_CODE_NICK = 103;
     int REQUEST_CODE_LOGIN_FROM_CART = 104;
 
+
+
     /** BeeColud APP ID */
     String BEE_COLUD_APP_ID = "3539b590-4859-4128-87a3-5fb8b86b94f6";
     /** BeeColud APP Secret*/
@@ -51,11 +53,15 @@ public interface I {
     int ACTION_ADD_COLLECT=1;
     /** 取消收藏*/
     int ACTION_DELETE_COLLECT=2;
-    
+    int ACTION_DELETE_CART=0;
+    int ACTION_ADD_CART=1;
+    int ACTION_UPDATE_CART=2;
+
     int NEW_GOOD=0;
     int CATEGORY_GOOD=1;
     int CAT_ID=0;
     String BROADCAST_UPDATA_CART = "cn.ucai.fulicenter.update.cart";
+    String BROADCAST_UPDATA_COLLECT = "cn.ucai.fulicenter.update.collect";
     int CART_CHECKED_DEFAULT = 0;
 
     interface Goods {
