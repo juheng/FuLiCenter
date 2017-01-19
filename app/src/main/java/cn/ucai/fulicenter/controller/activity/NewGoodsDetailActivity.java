@@ -6,9 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,12 +20,16 @@ import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.AlbumsBean;
 import cn.ucai.fulicenter.model.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.model.bean.MessageBean;
+import cn.ucai.fulicenter.model.bean.Result;
 import cn.ucai.fulicenter.model.bean.User;
 import cn.ucai.fulicenter.model.net.IModelNewGoods;
+import cn.ucai.fulicenter.model.net.IModelUser;
 import cn.ucai.fulicenter.model.net.ModelNewGoods;
+import cn.ucai.fulicenter.model.net.ModelUser;
 import cn.ucai.fulicenter.model.net.OnCompleteListener;
 import cn.ucai.fulicenter.model.utils.CommonUtils;
 import cn.ucai.fulicenter.model.utils.L;
+import cn.ucai.fulicenter.model.utils.ResultUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.MFGT;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -37,6 +42,7 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
     boolean isCollect;
 
     IModelNewGoods model;
+    IModelUser modelUser;
 
     @BindView(R.id.goods_detail_back)
     ImageView goodsDetailBack;
@@ -54,6 +60,14 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
     WebView goodsDetailWebView;
     @BindView(R.id.goods_detail_collect)
     ImageView goodsDetailCollect;
+    @BindView(R.id.goods_detail_cart)
+    ImageView goodsDetailCart;
+    @BindView(R.id.new_goods_detail_name_layout)
+    RelativeLayout newGoodsDetailNameLayout;
+    @BindView(R.id.new_goods_detail_image_layout)
+    LinearLayout newGoodsDetailImageLayout;
+    @BindView(R.id.activity_new_goos_detail)
+    RelativeLayout activityNewGoosDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,12 +160,12 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Object result) {
                         if (result != null) {
-                            MessageBean result1= (MessageBean) result;
+                            MessageBean result1 = (MessageBean) result;
                             isCollect = !isCollect;
                             setCollectStatus();
                             CommonUtils.showShortToast(result1.getMsg());
                             sendBroadcast(new Intent(I.BROADCAST_UPDATA_COLLECT)
-                            .putExtra(I.Collect.GOODS_ID,goodsId));
+                                    .putExtra(I.Collect.GOODS_ID, goodsId));
                         }
                     }
 
@@ -197,7 +211,7 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
 
     private void setCollectStatus() {
         L.e(TAG, "000000000000000000000000000000000000000000000000");
-            if (isCollect) {
+        if (isCollect) {
             goodsDetailCollect.setImageResource(R.mipmap.bg_collect_out);
         } else {
             goodsDetailCollect.setImageResource(R.mipmap.bg_collect_in);
@@ -206,5 +220,31 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
         goodsDetailCollect.setEnabled(true);
     }
 
+    @OnClick(R.id.goods_detail_cart)
+    public void addCart() {
+        User user = FuLiCenterApplication.getUser();
+        L.e(TAG,"user------------"+user);
+        if(user!=null){
+
+            modelUser = new ModelUser();
+            modelUser.updateCart(this, I.ACTION_ADD_CART, user.getMuserName(), goodsId, 0, 1, new OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(Object result) {
+                    MessageBean result1 = (MessageBean) result;
+                    if (result1 != null && result1.isSuccess()) {
+                        L.e(TAG,"result--------------"+result1);
+                        CommonUtils.showLongToast(R.string.add_goods_success);
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                    L.e(TAG, "error=" + error);
+                }
+            });
+        }else{
+            MFGT.gotoLoginActivity(this);
+        }
+    }
 }
 
