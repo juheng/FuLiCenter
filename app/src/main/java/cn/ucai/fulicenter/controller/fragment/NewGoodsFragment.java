@@ -17,11 +17,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.activity.MainActivity;
 import cn.ucai.fulicenter.controller.adapter.GoodsAdapter;
 import cn.ucai.fulicenter.model.bean.CategoryChildBean;
 import cn.ucai.fulicenter.model.bean.NewGoodsBean;
+import cn.ucai.fulicenter.model.bean.User;
 import cn.ucai.fulicenter.model.net.IModelNewGoods;
 import cn.ucai.fulicenter.model.net.ModelNewGoods;
 import cn.ucai.fulicenter.model.net.OnCompleteListener;
@@ -42,8 +44,6 @@ public class NewGoodsFragment extends Fragment {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.srl)
-
-
     SwipeRefreshLayout srl;
 
     GoodsAdapter mAdapter;
@@ -82,10 +82,10 @@ public class NewGoodsFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int lastPosition=mManager.findLastVisibleItemPosition();
-                if(mAdapter.isMore()&&newState==RecyclerView.SCROLL_STATE_IDLE&&mAdapter.getItemCount()-1==lastPosition){
+                int lastPosition = mManager.findLastVisibleItemPosition();
+                if (mAdapter.isMore() && newState == RecyclerView.SCROLL_STATE_IDLE && mAdapter.getItemCount() - 1 == lastPosition) {
                     pageId++;
-                    download(ACTION_PULL_UP,pageId);
+                    download(ACTION_PULL_UP, pageId);
                 }
             }
         });
@@ -104,28 +104,28 @@ public class NewGoodsFragment extends Fragment {
     }
 
     private void initData() {
-        pageId=1;
+        pageId = 1;
         download(I.ACTION_DOWNLOAD, pageId);
 
     }
 
-    private void download(final int action,int pageId) {
-        int catId=getActivity().getIntent().getIntExtra(I.NewAndBoutiqueGoods.CAT_ID,CAT_ID);
+    private void download(final int action, int pageId) {
+        int catId = getActivity().getIntent().getIntExtra(I.NewAndBoutiqueGoods.CAT_ID, CAT_ID);
         mModel.downData(getActivity(), catId, pageId, new OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(Object result) {
-                NewGoodsBean[] mResult= (NewGoodsBean[]) result;
+                NewGoodsBean[] mResult = (NewGoodsBean[]) result;
                 ArrayList<NewGoodsBean> list = ConvertUtils.array2List(mResult);
-                mAdapter.setMore(mResult != null&&mResult.length>0);
+                mAdapter.setMore(mResult != null && mResult.length > 0);
                 if (!mAdapter.isMore()) {
-                    if(action==I.ACTION_PULL_UP){
+                    if (action == I.ACTION_PULL_UP) {
                         mAdapter.setFooter("没有更多数据");
                     }
 
                     return;
                 }
                 mAdapter.setFooter("加载更多数据");
-                switch (action){
+                switch (action) {
                     case I.ACTION_DOWNLOAD:
                         mAdapter.initData(list);
                         break;
@@ -161,17 +161,18 @@ public class NewGoodsFragment extends Fragment {
 
         recyclerView.setAdapter(mAdapter);
 
-        mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(){
+        mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if(position==mAdapter.getItemCount()-1) {
+                if (position == mAdapter.getItemCount() - 1) {
                     return 2;
                 }
                 return 1;
             }
         });
     }
-    public void sortGoods(int sortBy){
+
+    public void sortGoods(int sortBy) {
         mAdapter.sortGoods(sortBy);
     }
 

@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
 
@@ -35,7 +36,7 @@ public class BoutiqueChildActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        String text = getIntent().getStringExtra("text");
+        String text = getIntent().getStringExtra(I.MERCHANT_NAME);
         tvBoutiqueChildTextView.setText(text);
     }
 

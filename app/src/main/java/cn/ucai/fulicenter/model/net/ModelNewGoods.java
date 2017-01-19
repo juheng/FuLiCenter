@@ -4,6 +4,7 @@ import android.content.Context;
 
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.CategoryChildBean;
+import cn.ucai.fulicenter.model.bean.CollectBean;
 import cn.ucai.fulicenter.model.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.model.bean.MessageBean;
 import cn.ucai.fulicenter.model.bean.NewGoodsBean;
@@ -78,6 +79,17 @@ public class ModelNewGoods implements IModelNewGoods{
         utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
                 .addParam(I.Collect.USER_NAME,username)
                 .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void getCollect(Context context, String username, int pageId, int pageSize, OnCompleteListener<CollectBean[]> listener) {
+        OkHttpUtils<CollectBean[]>utils=new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
+                .addParam(I.Collect.USER_NAME,String.valueOf(username))
+                .addParam(I.PAGE_ID,String.valueOf(pageId))
+                .addParam(I.PAGE_SIZE,String.valueOf(I.PAGE_SIZE_DEFAULT))
+                .targetClass(CollectBean[].class)
                 .execute(listener);
     }
 }

@@ -22,7 +22,7 @@ import cn.ucai.fulicenter.model.utils.ResultUtils;
 import cn.ucai.fulicenter.view.MFGT;
 
 public class RegisterActivity extends AppCompatActivity {
-    static final String TAG=RegisterActivity.class.getSimpleName();
+    static final String TAG = RegisterActivity.class.getSimpleName();
 
     @BindView(R.id.et_register_username)
     EditText etRegisterUsername;
@@ -90,14 +90,14 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(Object result) {
+
                 if (result != null) {
-                    String result1= (String) result;
-                    Result result2 = ResultUtils.getListResultFromJson(result1, User.class);
-                    L.e(TAG,"result="+result2);
+                    String result1 = (String) result;
+                    Result result2 = ResultUtils.getResultFromJson(result1, User.class);
+                    L.e(TAG, "result=" + result2);
                     if (result2 != null) {
                         if (result2.isRetMsg()) {
                             CommonUtils.showLongToast(R.string.register_success);
-                            L.e(result2.toString());
                             MFGT.finish(RegisterActivity.this);
                         } else {
                             CommonUtils.showLongToast(R.string.register_fail_exists);

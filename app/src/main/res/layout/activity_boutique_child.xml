@@ -6,21 +6,21 @@
     <LinearLayout
         android:id="@+id/boutique_child_menu"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal"
-        android:background="@color/orange">
+        android:background="@color/main_orange">
         <ImageView
             android:id="@+id/iv_boutique_child_image"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/back_nomal"/>
+            android:src="@drawable/back"/>
         <TextView
             android:id="@+id/tv_boutique_child_textView"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:textSize="20sp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:text="拯救头发，美丽新妆"/>
     </LinearLayout>

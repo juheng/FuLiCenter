@@ -125,11 +125,13 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
                 this.finish();
                 break;
             case R.id.goods_detail_collect:
+                goodsDetailCollect.setEnabled(false);
                 User user = FuLiCenterApplication.getUser();
                 if (user != null) {
                     checkInput(user);
                 } else {
                     MFGT.gotoLoginActivity(this);
+                    goodsDetailCollect.setEnabled(true);
                 }
                 break;
 
@@ -152,6 +154,7 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
                     @Override
                     public void onError(String error) {
                         L.e(TAG, "error=" + error);
+                        goodsDetailCollect.setEnabled(true);
                     }
                 });
     }
@@ -163,6 +166,7 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
     }
 
     private void initCollectStatus() {
+        goodsDetailCollect.setEnabled(false);
         User user = FuLiCenterApplication.getUser();
         if (user != null) {
             model.isCollect(this, goodsId, user.getMuserName(), new OnCompleteListener<MessageBean>() {
@@ -189,12 +193,13 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
 
     private void setCollectStatus() {
         L.e(TAG, "000000000000000000000000000000000000000000000000");
-        if (isCollect) {
+            if (isCollect) {
             goodsDetailCollect.setImageResource(R.mipmap.bg_collect_out);
         } else {
             goodsDetailCollect.setImageResource(R.mipmap.bg_collect_in);
 
         }
+        goodsDetailCollect.setEnabled(true);
     }
 
 }

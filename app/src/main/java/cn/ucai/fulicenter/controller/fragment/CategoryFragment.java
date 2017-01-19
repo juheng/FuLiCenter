@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.controller.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,8 +35,6 @@ public class CategoryFragment extends Fragment {
 
     IModelCategory mModel;
 
-    MainActivity mContext;
-
     int groupId = 0;
     @BindView(R.id.listView)
     ExpandableListView listView;
@@ -53,9 +52,8 @@ public class CategoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         ButterKnife.bind(this, view);
         mModel = new ModelCategory();
-        mContext = (MainActivity) getContext();
 
-        mAdapter = new CategoryAdapter(mContext, groupList, childList);
+        mAdapter = new CategoryAdapter(getContext(), groupList, childList);
         initData();
         listView.setGroupIndicator(null);
         listView.setAdapter(mAdapter);
@@ -65,7 +63,7 @@ public class CategoryFragment extends Fragment {
 
 
     private void initData() {
-        mModel.downGroupData(mContext, new OnCompleteListener<CategoryGroupBean[]>() {
+        mModel.downGroupData(getContext(), new OnCompleteListener<CategoryGroupBean[]>() {
             @Override
             public void onSuccess(Object result) {
                 CategoryGroupBean[] mResult = (CategoryGroupBean[]) result;
@@ -85,14 +83,14 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onError(String error) {
                 initView(false);
-                Toast.makeText(mContext, error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
     private void downloadChildData(final int parentId, final int index) {
-        mModel.downChildData(mContext, parentId, new OnCompleteListener<CategoryChildBean[]>() {
+        mModel.downChildData(getContext(), parentId, new OnCompleteListener<CategoryChildBean[]>() {
             @Override
             public void onSuccess(Object result) {
                 CategoryChildBean[] mResult = (CategoryChildBean[]) result;
@@ -110,7 +108,7 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onError(String error) {
                 groupId++;
-                Toast.makeText(mContext, error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
             }
         });
     }

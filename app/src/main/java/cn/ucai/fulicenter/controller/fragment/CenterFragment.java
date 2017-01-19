@@ -74,8 +74,6 @@ public class CenterFragment extends Fragment {
             @Override
             public void onSuccess(Object result) {
                 MessageBean result1= (MessageBean) result;
-                L.e(TAG,"result1======="+result1);
-                L.e(TAG,"000000000000"+result1.getMsg());
                 if(result1!=null&&result1.isSuccess()){
                     loadCount(result1.getMsg());
                 }
@@ -100,7 +98,7 @@ public class CenterFragment extends Fragment {
         tvCount.setText(count);
     }
 
-    @OnClick({R.id.tv_center_set, R.id.tv_center_name})
+    @OnClick({R.id.tv_center_set, R.id.tv_center_name,R.id.getCollect})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_center_set:
@@ -108,6 +106,9 @@ public class CenterFragment extends Fragment {
                 break;
             case R.id.tv_center_name:
                 MFGT.gotoPersonalDataActivity(getActivity());
+                break;
+            case R.id.getCollect:
+                MFGT.gotoCollectActivity(getActivity());
                 break;
         }
     }

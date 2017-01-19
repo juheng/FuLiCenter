@@ -1,8 +1,6 @@
 package cn.ucai.fulicenter.controller.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
-import cn.ucai.fulicenter.controller.activity.BoutiqueChildActivity;
 import cn.ucai.fulicenter.controller.activity.MainActivity;
 import cn.ucai.fulicenter.model.bean.BoutiqueBean;
 import cn.ucai.fulicenter.model.utils.ImageLoader;
@@ -65,7 +62,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
             layout = inflater.inflate(R.layout.item_footer, null);
             return new FooterViewHolder(layout);
         } else {
-            layout = inflater.inflate(R.layout.item_boutiqoe, null);
+            layout = inflater.inflate(R.layout.item_boutique, null);
             return new BoutiqueViewHolder(layout);
         }
 
@@ -86,7 +83,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MFGT.gotoBoutiqueChild(mContext,boutiqueList.get(position));
+                MFGT.gotoBoutiqueChild(mContext, boutiqueList.get(position));
             }
         });
     }
@@ -118,7 +115,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
     }
 
 
-    static class FooterViewHolder extends RecyclerView.ViewHolder{
+    static class FooterViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_footer)
         TextView tvFooter;
@@ -129,14 +126,15 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
         }
     }
 
+
     class BoutiqueViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.iv_boutique_image)
+        @BindView(R.id.tv_image)
         ImageView tvImage;
-        @BindView(R.id.tv_boutique_text1)
+        @BindView(R.id.tv_text1)
         TextView tvText1;
-        @BindView(R.id.tv_boutique_text2)
+        @BindView(R.id.tv_text2)
         TextView tvText2;
-        @BindView(R.id.tv_boutique_text3)
+        @BindView(R.id.tv_text3)
         TextView tvText3;
 
         BoutiqueViewHolder(View view) {

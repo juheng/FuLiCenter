@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.view.View;
 
 import cn.ucai.fulicenter.model.bean.CategoryChildBean;
+import cn.ucai.fulicenter.model.bean.CollectBean;
 import cn.ucai.fulicenter.model.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.model.bean.MessageBean;
 import cn.ucai.fulicenter.model.bean.NewGoodsBean;
@@ -21,4 +22,5 @@ public interface IModelNewGoods {
     void isCollect(Context context, int goodsId,String username, OnCompleteListener<MessageBean> listener);
     void addCollect(Context context, int goodsId,String username,int action, OnCompleteListener<MessageBean> listener);
     void CollectCount(Context context,String username, OnCompleteListener<MessageBean> listener);
+    void getCollect(Context context,String username,int pageId,int pageSize, OnCompleteListener<CollectBean[]> listener);
 }
