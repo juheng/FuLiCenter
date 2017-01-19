@@ -1,5 +1,9 @@
 package cn.ucai.fulicenter.controller.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -46,13 +50,21 @@ public class CollectActivity extends AppCompatActivity {
     CollectAdapter mAdapter;
     ArrayList<CollectBean> list;
     GridLayoutManager manager;
+    UpdateCollectReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect);
         ButterKnife.bind(this);
-        list=new ArrayList<>();
+
+
+       receiver=new UpdateCollectReceiver();
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(I.BROADCAST_UPDATA_COLLECT);
+        registerReceiver(receiver,filter);
+
+        list = new ArrayList<>();
         mAdapter = new CollectAdapter(this, list);
         DisplayUtils.initBackWithTitle(this, "收藏的宝贝");
 
@@ -170,5 +182,21 @@ public class CollectActivity extends AppCompatActivity {
                 L.e(TAG, "error=" + error);
             }
         });
+    }
+
+    class UpdateCollectReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int goodsId = intent.getIntExtra(I.Collect.GOODS_ID, 0);
+            L.e(TAG, "onReceiver,goodsId=" + goodsId);
+            mAdapter.removeItem(goodsId);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+       unregisterReceiver(receiver);
     }
 }

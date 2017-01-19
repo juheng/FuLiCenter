@@ -1,6 +1,8 @@
 package cn.ucai.fulicenter.controller.adapter;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.CollectBean;
 import cn.ucai.fulicenter.model.bean.MessageBean;
+import cn.ucai.fulicenter.model.bean.NewGoodsBean;
 import cn.ucai.fulicenter.model.bean.User;
 import cn.ucai.fulicenter.model.net.IModelNewGoods;
 import cn.ucai.fulicenter.model.net.ModelNewGoods;
@@ -129,6 +132,11 @@ public class CollectAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void removeItem(int goodsId) {
+        goodsList.remove(new CollectBean(goodsId));
+        notifyDataSetChanged();
+    }
+
     class CollectViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_GoodsThumb)
         ImageView ivGoodsThumb;
@@ -173,6 +181,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
                     break;
             }
         }
+
     }
 
     class FooterViewHolder extends RecyclerView.ViewHolder {

@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.controller.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -138,7 +140,7 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void checkInput(User user) {
+    private void checkInput(final User user) {
         model.addCollect(this, goodsId, user.getMuserName()
                 , isCollect ? I.ACTION_DELETE_COLLECT : I.ACTION_ADD_COLLECT, new OnCompleteListener<MessageBean>() {
                     @Override
@@ -148,6 +150,8 @@ public class NewGoodsDetailActivity extends AppCompatActivity {
                             isCollect = !isCollect;
                             setCollectStatus();
                             CommonUtils.showShortToast(result1.getMsg());
+                            sendBroadcast(new Intent(I.BROADCAST_UPDATA_COLLECT)
+                            .putExtra(I.Collect.GOODS_ID,goodsId));
                         }
                     }
 
