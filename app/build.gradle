@@ -20,7 +20,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.android.support:recyclerview-v7:25.0.1'
@@ -31,4 +30,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.0.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile project(':lib:bdwallet_pay_sdk')
+    compile project(':lib:pingpp')
+    compile project(':lib:pingpp_one')
 }
