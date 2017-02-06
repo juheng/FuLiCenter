@@ -60,7 +60,7 @@ public interface I {
     int NEW_GOOD=0;
     int CATEGORY_GOOD=1;
     int CAT_ID=0;
-    String BROADCAST_UPDATA_CART = "cn.ucai.fulicenter.update.cart";
+    String BROADCAST_UPDATE_CART = "cn.ucai.fulicenter.update.cart";
     String BROADCAST_UPDATA_COLLECT = "cn.ucai.fulicenter.update.collect";
     int CART_CHECKED_DEFAULT = 0;
 
@@ -217,6 +217,7 @@ public interface I {
         String COUNT="count";
         /**商品是否已被选中*/
         String IS_CHECKED="isChecked";
+        String PAY_PRICE="payPrice";
     }
 
     interface Collect{

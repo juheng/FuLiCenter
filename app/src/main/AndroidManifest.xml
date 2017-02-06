@@ -24,13 +24,13 @@
         <activity android:name=".controller.activity.BoutiqueChildActivity" />
         <activity android:name=".controller.activity.NewGoodsDetailActivity" />
         <activity android:name=".controller.activity.CategoryDetailActivity" />
-        <activity android:name=".controller.activity.CategoryChildActivity" />
         <activity android:name=".controller.activity.LoginActivity" />
         <activity android:name=".controller.activity.RegisterActivity" />
         <activity android:name=".controller.activity.SettingActivity" />
         <activity android:name=".controller.activity.PersonalDataActivity" />
         <activity android:name=".controller.activity.UpdateNickActivity" />
-        <activity android:name=".controller.activity.CollectActivity"></activity>
+        <activity android:name=".controller.activity.CollectActivity" />
+        <activity android:name=".controller.activity.OrderActivity"></activity>
     </application>
 
 </manifest>

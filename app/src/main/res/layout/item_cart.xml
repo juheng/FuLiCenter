@@ -4,13 +4,15 @@
     android:layout_height="60dp"
     android:background="@color/white">
 
-    <ImageView
+    <CheckBox
         android:id="@+id/iv_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
-        android:src="@mipmap/checkbox_normal" />
+        style="@style/CustomCheckboxTheme"
+        android:checked="false"
+        />
 
     <ImageView
         android:id="@+id/iv_goodsThumb"
@@ -55,6 +57,7 @@
         android:textSize="20sp" />
 
     <ImageView
+        android:id="@+id/iv_deleteCount"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_below="@id/tv_goodsName"
@@ -64,6 +67,7 @@
         android:layout_toRightOf="@id/tv_cartCount"
         android:src="@mipmap/del_cart" />
     <TextView
+        android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¥xxx"
